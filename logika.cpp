@@ -2,6 +2,7 @@
 #include <fstream>
 #include <string>
 #include <sstream>
+#include "data.h" // <--- Tambahkan ini
 using namespace std;
 
 // ===============================
