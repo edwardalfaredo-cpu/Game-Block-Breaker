@@ -7,6 +7,10 @@
 const int BARIS = 5;
 const int KOLOM = 8;
 
+// Ukuran arena permainan diterminal (1 balok = lebar 3 karakter, jadi 8 * 3 = 24)
+const int BARIS = 5;
+const int KOLOM = 8;
+
 // Menggunakan 'extern' agar variabel bisa dipakai bersama di main.cpp dan logika.cpp
 extern bool balok[BARIS][KOLOM];
 extern int skor;
@@ -19,8 +23,13 @@ extern bool gameOver;
     int y;
  };
 
+ extern Posisi bola;
+ extern Posisi arahBola;
+ extern int posisiPaddle;
+ extern int lebarPaddle;
+
  // ===============================
- // PROTOTIPE FUNGSI BALOK (Sudah ada di logika.cpp)
+ // PROTOTIPE FUNGSI BALOK 
  // ===============================
  void isiBalok();
  void resetBalok();
@@ -29,7 +38,7 @@ extern bool gameOver;
  void tampilBalok();
 
  // ===============================
- // PROTOTIPE FUNGSI GAME (Rencana di main.cpp)
+ // PROTOTIPE FUNGSI GAME 
  // ===============================
  void setupGame();
  void drawGame();
