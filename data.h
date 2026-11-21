@@ -8,8 +8,8 @@ const int BARIS = 5;
 const int KOLOM = 8;
 
 // Ukuran arena permainan diterminal (1 balok = lebar 3 karakter, jadi 8 * 3 = 24)
-const int BARIS = 5;
-const int KOLOM = 8;
+const int TINGGI_LAYAR = 20;
+const int LEBAR_LAYAR = 40;
 
 // Menggunakan 'extern' agar variabel bisa dipakai bersama di main.cpp dan logika.cpp
 extern bool balok[BARIS][KOLOM];
