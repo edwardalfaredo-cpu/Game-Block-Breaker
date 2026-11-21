@@ -1,25 +1,39 @@
 #include <iostream>
+#include <windows.h> // Untuk fungsi Sleep()
 #include "data.h"
 
 using namespace std;
 
 int main() {
-    // 1.Persiapan awal permainan (inisialisasi posisi bola,papan,skor,dll.)
-    // Contoh: setupGame();
+    system("cls"); // Bersihkan terminal sekali di awal
+    setupGame();
 
-    // 2. Game Loop (perulangan selama permainan berlangsung)
     while (true) {
-        // Gambar tampilan layar (papan,bola,blok)
-        // Contoh: drawGame();
+        drawGame();
+        inputPlayer();
+        updateLogic();
 
-        //Terima input tombol dari pemain (kiri/kanan)
-        //Contoh: inputPlayer();
+        // Cek kondisi kalah
+        if (gameOver) {
+            drawGame();
+            cout << "\n==============================\n";
+            cout << "   GAME OVER! SKOR AKHIR: " << skor << "\n";
+            cout << "==============================\n";
+            break;
+        }
 
-        // Jalankan logika permainan (gerak bola, pantulan, cek blok hancur)
-        // Contoh: updateLogika();
+        // Cek kondisi menang (semua balok habis)
+        if (hitungBalok() == 0) {
+            drawGame();
+            cout << "\n==============================\n";
+            cout << "  SELAMAT! KAMU MENANG! SKOR: " << skor << "\n";
+            cout << "==============================\n";
+            break;
+        }
 
-        // Cek kondisi kalah atau menang untuk keluar dari loop (break)
+        Sleep(90); // Kecepatan game (makin kecil angka, makin cepat bola bergerak)
     }
 
     return 0;
 }
+ 
