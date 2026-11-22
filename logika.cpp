@@ -212,31 +212,49 @@ void drawGame() {
 
 void inputPlayer() {
 
-    // Panah kiri atau A
-    if ((GetAsyncKeyState(VK_LEFT) & 0x8000) ||
-        (GetAsyncKeyState('A') & 0x8000)) {
+    static DWORD waktuGerakTerakhir = 0;
+    const DWORD jedaGerak = 12;
 
-        posisiPaddle -= 2;
-
-        if (posisiPaddle < 0) {
-            posisiPaddle = 0;
-        }
-    }
-
-    // Panah kanan atau D
-    if ((GetAsyncKeyState(VK_RIGHT) & 0x8000) ||
-        (GetAsyncKeyState('D') & 0x8000)) {
-
-        posisiPaddle += 2;
-
-        if (posisiPaddle + lebarPaddle > LEBAR_LAYAR) {
-            posisiPaddle = LEBAR_LAYAR - lebarPaddle;
-        }
-    }
+    DWORD sekarang = GetTickCount();
 
     // Tombol X untuk keluar
     if (GetAsyncKeyState('X') & 0x8000) {
         gameOver = true;
+        return;
+    }
+
+    // Membaca tombol kiri dan kanan
+    bool kiri = (GetAsyncKeyState(VK_LEFT) & 0x8000) ||
+                (GetAsyncKeyState('A') & 0x8000);
+
+    bool kanan = (GetAsyncKeyState(VK_RIGHT) & 0x8000) ||
+                 (GetAsyncKeyState('D') & 0x8000);
+
+    // Mengatur jeda gerakan
+    if (sekarang - waktuGerakTerakhir < jedaGerak) {
+        return;
+    }
+
+    // Gerakan ke kiri
+    if (kiri && !kanan) {
+        posisiPaddle -= 1;
+
+        if (posisiPaddle < 0) {
+            posisiPaddle = 0;
+        }
+
+        waktuGerakTerakhir = sekarang;
+    }
+
+    // Gerakan ke kanan
+    else if (kanan && !kiri) {
+        posisiPaddle += 1;
+
+        if (posisiPaddle + lebarPaddle > LEBAR_LAYAR) {
+            posisiPaddle = LEBAR_LAYAR - lebarPaddle;
+        }
+
+        waktuGerakTerakhir = sekarang;
     }
 }
 
