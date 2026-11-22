@@ -2,14 +2,13 @@
 #include <windows.h>
 #include <cstdlib>
 #include <ctime>
-#include <string>
 #include "data.h"
 
 using namespace std;
 
-// ===============================
-// DEFINISI VARIABEL GLOBAL
-// ===============================
+// ==============================
+// VARIABEL GAME
+// ==============================
 
 bool balok[BARIS][KOLOM];
 
@@ -23,9 +22,10 @@ Posisi arahBola;
 int posisiPaddle;
 int lebarPaddle = 5;
 
-// ===============================
-// BAGIAN 1: ISI DAN RESET BALOK
-// ===============================
+
+// ==============================
+// MENGISI DAN MENGHITUNG BALOK
+// ==============================
 
 void isiBalok() {
     for (int i = 0; i < BARIS; i++) {
@@ -53,41 +53,56 @@ int hitungBalok() {
     return jumlah;
 }
 
+
+// ==============================
+// MENGHANCURKAN BALOK
+// ==============================
+
 void hancurkanBalok(int baris, int kolom) {
+
     if (baris >= 0 && baris < BARIS &&
         kolom >= 0 && kolom < KOLOM) {
 
-        if   (balok[baris][kolom]) { 
+        if (balok[baris][kolom]) {
 
             balok[baris][kolom] = false;
-            // Coba munculkan item dari balok 
+
+            // Mencoba memunculkan item
             buatItem(kolom * 3 + 1, baris);
-
         }
-    }  
-}   
+    }
+}
 
-                 
-       
-        
+
+// ==============================
+// MENAMPILKAN BALOK
+// ==============================
+
 void tampilBalok() {
+
     for (int i = 0; i < BARIS; i++) {
+
         for (int j = 0; j < KOLOM; j++) {
+
             if (balok[i][j]) {
                 cout << "[B]";
-            } else {
+            }
+            else {
                 cout << "   ";
             }
         }
+
         cout << endl;
     }
 }
 
-// ===============================
-// BAGIAN 2: RESET POSISI BOLA
-// ===============================
+
+// ==============================
+// RESET POSISI BOLA
+// ==============================
 
 void resetPosisiBola() {
+
     posisiPaddle = (LEBAR_LAYAR - lebarPaddle) / 2;
 
     bola.x = LEBAR_LAYAR / 2;
@@ -97,9 +112,10 @@ void resetPosisiBola() {
     arahBola.y = -1;
 }
 
-// ===============================
-// BAGIAN 3: PERSIAPAN GAME
-// ===============================
+
+// ==============================
+// SETUP GAME
+// ==============================
 
 void setupGame() {
 
@@ -112,45 +128,45 @@ void setupGame() {
     srand(static_cast<unsigned>(time(nullptr)));
 
     isiBalok();
+
     resetItem();
+
     resetPosisiBola();
 }
 
-// ===============================
-// BAGIAN 4: MENAMPILKAN GAME
-// ===============================
+
+// ==============================
+// MENGGAMBAR GAME
+// ==============================
 
 void drawGame() {
-    // Mengatur posisi tampilan agar bergeser ke tengah
-    const int OFFSET_KIRI = 45;
-    string geser(OFFSET_KIRI, ' ');
 
-    // Mengembalikan kursor ke pojok kiri atas
     COORD cursorPosition;
+
     cursorPosition.X = 0;
     cursorPosition.Y = 0;
+
     SetConsoleCursorPosition(
         GetStdHandle(STD_OUTPUT_HANDLE),
         cursorPosition
     );
 
-    // Menampilkan informasi permainan
-    cout << geser;
+    // Menampilkan skor dan nyawa
     cout << "SKOR: " << skor
          << " | NYAWA: " << nyawa
          << " | SISA BALOK: " << hitungBalok()
          << "                    \n";
 
     // Batas atas arena
-    cout << geser;
     for (int x = 0; x < LEBAR_LAYAR + 2; x++) {
         cout << "#";
     }
+
     cout << "\n";
 
-    // Menggambar isi arena
+    // Isi arena permainan
     for (int y = 0; y < TINGGI_LAYAR; y++) {
-        cout << geser;
+
         cout << "#";
 
         for (int x = 0; x < LEBAR_LAYAR; x++) {
@@ -199,50 +215,54 @@ void drawGame() {
     }
 
     // Batas bawah arena
-    cout << geser;
     for (int x = 0; x < LEBAR_LAYAR + 2; x++) {
         cout << "#";
     }
+
     cout << "\n";
 
     // Informasi kontrol
-    cout << geser;
     cout << "Kontrol: A / Panah Kiri"
          << " | D / Panah Kanan"
          << " | X Keluar\n";
 }
 
-// ===============================
-// BAGIAN 5: INPUT PEMAIN
-// ===============================
+
+// ==============================
+// KONTROL PADDLE
+// ==============================
 
 void inputPlayer() {
 
     static DWORD waktuGerakTerakhir = 0;
-    const DWORD jedaGerak = 12;
+
+    const DWORD jedaGerak = 10;
 
     DWORD sekarang = GetTickCount();
 
-    // Tombol X untuk keluar
+    // Keluar dari permainan
     if (GetAsyncKeyState('X') & 0x8000) {
         gameOver = true;
         return;
     }
 
-    // Membaca tombol kiri dan kanan
-    bool kiri = (GetAsyncKeyState(VK_LEFT) & 0x8000) ||
-                (GetAsyncKeyState('A') & 0x8000);
+    // Membaca tombol kiri
+    bool kiri =
+        (GetAsyncKeyState(VK_LEFT) & 0x8000) ||
+        (GetAsyncKeyState('A') & 0x8000);
 
-    bool kanan = (GetAsyncKeyState(VK_RIGHT) & 0x8000) ||
-                 (GetAsyncKeyState('D') & 0x8000);
+    // Membaca tombol kanan
+    bool kanan =
+        (GetAsyncKeyState(VK_RIGHT) & 0x8000) ||
+        (GetAsyncKeyState('D') & 0x8000);
 
-    // Mengatur jeda gerakan
     if (sekarang - waktuGerakTerakhir < jedaGerak) {
         return;
     }
 
-    // Gerakan ke kiri
+    // Bergerak ke kiri
     if (kiri && !kanan) {
+
         posisiPaddle -= 1;
 
         if (posisiPaddle < 0) {
@@ -252,8 +272,9 @@ void inputPlayer() {
         waktuGerakTerakhir = sekarang;
     }
 
-    // Gerakan ke kanan
+    // Bergerak ke kanan
     else if (kanan && !kiri) {
+
         posisiPaddle += 1;
 
         if (posisiPaddle + lebarPaddle > LEBAR_LAYAR) {
@@ -264,40 +285,40 @@ void inputPlayer() {
     }
 }
 
-// ===============================
-// BAGIAN 6: LOGIKA PERGERAKAN BOLA
-// ===============================
+
+// ==============================
+// LOGIKA PERGERAKAN BOLA
+// ==============================
 
 void updateLogic() {
+
     if (gameOver) {
         return;
     }
 
-    // Gerakkan bola
+    // Menggerakkan bola
     bola.x += arahBola.x;
     bola.y += arahBola.y;
 
     // Pantulan dinding kiri
     if (bola.x <= 0) {
+
         bola.x = 0;
         arahBola.x = 1;
     }
 
     // Pantulan dinding kanan
     else if (bola.x >= LEBAR_LAYAR - 1) {
+
         bola.x = LEBAR_LAYAR - 1;
         arahBola.x = -1;
     }
 
-    // Cek tabrakan dengan balok
+    // Pemeriksaan tabrakan balok
     bool kenaBalok = false;
 
-    if (
-        bola.y >= 0 &&
-        bola.y < BARIS &&
-        bola.x >= 0 &&
-        bola.x < KOLOM * 3
-    ) {
+    if (bola.y >= 0 && bola.y < BARIS &&
+        bola.x >= 0 && bola.x < KOLOM * 3) {
 
         int kolomBalok = bola.x / 3;
         int barisBalok = bola.y;
@@ -314,34 +335,30 @@ void updateLogic() {
         }
     }
 
-    // Pantulan atap jika tidak sedang mengenai balok
+    // Pantulan dinding atas
     if (!kenaBalok && bola.y <= 0) {
+
         bola.y = 0;
         arahBola.y = 1;
     }
 
     // Pantulan paddle
-    if (
-        bola.y == TINGGI_LAYAR - 1 &&
+    if (bola.y == TINGGI_LAYAR - 1 &&
         arahBola.y > 0 &&
         bola.x >= posisiPaddle &&
-        bola.x < posisiPaddle + lebarPaddle
-    ) {
+        bola.x < posisiPaddle + lebarPaddle) {
 
         arahBola.y = -1;
 
-        // Mengenai sisi kiri paddle
         if (bola.x < posisiPaddle + lebarPaddle / 2) {
             arahBola.x = -1;
         }
-
-        // Mengenai sisi kanan paddle
         else {
             arahBola.x = 1;
         }
     }
 
-    // Bola jatuh melewati paddle
+    // Pemeriksaan bola jatuh
     if (bola.y >= TINGGI_LAYAR) {
 
         nyawa--;
@@ -350,10 +367,13 @@ void updateLogic() {
             gameOver = true;
         }
         else {
+
             Sleep(500);
+
             resetPosisiBola();
         }
     }
 
+    // Memperbarui sistem item
     updateItem();
 }
