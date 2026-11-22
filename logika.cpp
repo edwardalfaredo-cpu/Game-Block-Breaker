@@ -217,12 +217,12 @@ void inputPlayer() {
 
         int tombol = _getch();
 
-        // Memeriksa tombol panah kiri atau kanan
+        // Membaca kode tambahan tombol panah
         if (tombol == 0 || tombol == 224) {
             tombol = _getch();
         }
 
-        // Tombol panah kiri atau huruf A
+        // PANAH KIRI atau A
         if (tombol == 75 || tombol == 'a' || tombol == 'A') {
 
             posisiPaddle -= 2;
@@ -232,7 +232,7 @@ void inputPlayer() {
             }
         }
 
-        // Tombol panah kanan atau huruf D
+        // PANAH KANAN atau D
         else if (tombol == 77 || tombol == 'd' || tombol == 'D') {
 
             posisiPaddle += 2;
@@ -242,7 +242,7 @@ void inputPlayer() {
             }
         }
 
-        // Tombol X untuk keluar
+        // KELUAR DARI GAME
         else if (tombol == 'x' || tombol == 'X') {
             gameOver = true;
         }
