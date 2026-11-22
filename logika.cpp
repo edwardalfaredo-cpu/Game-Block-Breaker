@@ -213,7 +213,7 @@ void drawGame() {
 void inputPlayer() {
 
     static DWORD waktuGerakTerakhir = 0;
-    const DWORD jedaGerak = 12;
+    const DWORD jedaGerak = 10;
 
     DWORD sekarang = GetTickCount();
 

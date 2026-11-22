@@ -11,7 +11,7 @@ int main() {
 
     // Pengaturan kecepatan permainan
     const DWORD jedaBola = 90;
-    const DWORD jedaGambar = 20;
+    const DWORD jedaGambar = 16;
 
     DWORD waktuBola = GetTickCount();
     DWORD waktuGambar = GetTickCount();
