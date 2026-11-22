@@ -206,7 +206,38 @@ void tampilHighScore() {
             mvprintw(4 + i, 8, "%d. ---", i + 1);
         }
     }
+    
     mvprintw(11, 8, "Tekan tombol apa saja untuk kembali...");
     refresh();
     getch();
+}
+string mintaNama() {
+    nodelay(stdscr, FALSE);
+    flushinp();
+
+    string nama = "";
+    int ch;
+
+    while (true) {
+        clear();
+        mvprintw(3, 8, "=== SKOR MASUK 5 BESAR! ===");
+        mvprintw(5, 8, "Skor kamu: %d", skor);
+        mvprintw(7, 8, "Ketik namamu (maks 10 huruf), lalu Enter:");
+        mvprintw(9, 8, "> %s_", nama.c_str());
+        refresh();
+
+        ch = getch();
+        if (ch == '\n' || ch == KEY_ENTER || ch == '\r') {
+            if (nama.length() > 0) {
+                break;                         // selesai (nama tidak boleh kosong)
+            }
+        } else if (ch == KEY_BACKSPACE || ch == 8 || ch == 127) {
+            if (nama.length() > 0) {
+                nama.erase(nama.length() - 1); // hapus huruf terakhir
+            }
+        } else if (ch >= 32 && ch <= 126 && nama.length() < 10) {
+            nama += (char)ch;                  // tambah huruf
+        }
+    }
+    return nama;
 }

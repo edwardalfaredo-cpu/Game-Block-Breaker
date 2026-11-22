@@ -3,6 +3,9 @@
 
 // Dibuat oleh Orang A (file tampilan.h / tampilan.cpp)
 
+#include <string>
+using namespace std;
+
 // Nomor pilihan yang dikembalikan menuUtama()
 const int MENU_MULAI  = 1;
 const int MENU_SKOR   = 2;
@@ -18,5 +21,6 @@ void tampilHowToPlay();                // layar cara bermain
 void tampilPesan(const char *teks);    // layar pesan singkat + tunggu tombol
 void tampilGameOver(bool waktuHabis);  // true = waktu habis, false = nyawa habis
 void tampilHighScore();                // tabel 5 skor tertinggi
+string mintaNama();                    // layar ketik nama, kembalikan nama (maks 10 huruf)
 
 #endif
