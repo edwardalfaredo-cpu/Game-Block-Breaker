@@ -1,6 +1,8 @@
 #include <iostream>
 #include <conio.h>
 #include <windows.h>
+#include <cstdlib>
+#include <ctime>
 #include "data.h"
 
 using namespace std;
@@ -55,10 +57,19 @@ void hancurkanBalok(int baris, int kolom) {
     if (baris >= 0 && baris < BARIS &&
         kolom >= 0 && kolom < KOLOM) {
 
-        balok[baris][kolom] = false;
-    }
-}
+        if   (balok[baris][kolom]) { 
 
+            balok[baris][kolom] = false;
+            // Coba munculkan item dari balok 
+            buatItem(kolom * 3 + 1, baris);
+
+        }
+    }  
+}   
+
+                 
+       
+        
 void tampilBalok() {
     for (int i = 0; i < BARIS; i++) {
         for (int j = 0; j < KOLOM; j++) {
@@ -91,13 +102,17 @@ void resetPosisiBola() {
 // ===============================
 
 void setupGame() {
+
     skor = 0;
     nyawa = 3;
     gameOver = false;
 
     lebarPaddle = 5;
 
+srand(static_cast<unsigned>(time(nullptr)));    
+
     isiBalok();
+    resetPosisiBola();
     resetPosisiBola();
 }
 
@@ -137,6 +152,14 @@ void drawGame() {
             // Bola
             if (x == bola.x && y == bola.y) {
                 cout << "O";
+            }
+
+            else if (
+                itemAktif &&
+                x == item.x &&
+                y == item.y
+            ) {
+                cout << "*";
             }
 
             // Paddle
@@ -319,4 +342,6 @@ void updateLogic() {
             resetPosisiBola();
         }
     }
+
+    updateItem();
 }

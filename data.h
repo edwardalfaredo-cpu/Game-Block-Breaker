@@ -44,5 +44,16 @@ extern bool gameOver;
  void drawGame();
  void inputPlayer();
  void updateLogic();
+ 
+// ===============================
+// PROTOTIPE FUNGSI ITEM
+// ===============================
+
+extern Posisi item;
+extern bool itemAktif;
+
+void resetItem();
+void buatItem(int x, int y);
+void updateItem();
 
  #endif // DATA_H
