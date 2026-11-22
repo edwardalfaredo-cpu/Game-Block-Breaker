@@ -1,5 +1,4 @@
 #include <iostream>
-#include <conio.h>
 #include <windows.h>
 #include <cstdlib>
 #include <ctime>
@@ -213,7 +212,7 @@ void drawGame() {
 
 void inputPlayer() {
 
-    // Tombol panah kiri atau A
+    // Panah kiri atau A
     if ((GetAsyncKeyState(VK_LEFT) & 0x8000) ||
         (GetAsyncKeyState('A') & 0x8000)) {
 
@@ -224,7 +223,7 @@ void inputPlayer() {
         }
     }
 
-    // Tombol panah kanan atau D
+    // Panah kanan atau D
     if ((GetAsyncKeyState(VK_RIGHT) & 0x8000) ||
         (GetAsyncKeyState('D') & 0x8000)) {
 
