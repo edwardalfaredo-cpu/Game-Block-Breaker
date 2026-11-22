@@ -2,6 +2,7 @@
 #include <windows.h>
 #include <cstdlib>
 #include <ctime>
+#include <string>
 #include "data.h"
 
 using namespace std;
@@ -120,62 +121,63 @@ void setupGame() {
 // ===============================
 
 void drawGame() {
-    COORD cursorPosition;
+    // Mengatur posisi tampilan agar bergeser ke tengah
+    const int OFFSET_KIRI = 15;
+    string geser(OFFSET_KIRI, ' ');
 
+    // Mengembalikan kursor ke pojok kiri atas
+    COORD cursorPosition;
     cursorPosition.X = 0;
     cursorPosition.Y = 0;
-
     SetConsoleCursorPosition(
         GetStdHandle(STD_OUTPUT_HANDLE),
         cursorPosition
     );
 
+    // Menampilkan informasi permainan
+    cout << geser;
     cout << "SKOR: " << skor
          << " | NYAWA: " << nyawa
          << " | SISA BALOK: " << hitungBalok()
          << "                    \n";
 
-    // Bingkai atas
+    // Batas atas arena
+    cout << geser;
     for (int x = 0; x < LEBAR_LAYAR + 2; x++) {
         cout << "#";
     }
     cout << "\n";
 
-    // Isi arena
+    // Menggambar isi arena
     for (int y = 0; y < TINGGI_LAYAR; y++) {
-
+        cout << geser;
         cout << "#";
 
         for (int x = 0; x < LEBAR_LAYAR; x++) {
 
-            // Bola
+            // Menggambar bola
             if (x == bola.x && y == bola.y) {
                 cout << "O";
             }
 
-            else if (
-                itemAktif &&
-                x == item.x &&
-                y == item.y
-            ) {
+            // Menggambar item
+            else if (itemAktif &&
+                     x == item.x && y == item.y) {
                 cout << "*";
             }
 
-            // Paddle
-            else if (
-                y == TINGGI_LAYAR - 1 &&
-                x >= posisiPaddle &&
-                x < posisiPaddle + lebarPaddle
-            ) {
+            // Menggambar paddle
+            else if (y == TINGGI_LAYAR - 1 &&
+                     x >= posisiPaddle &&
+                     x < posisiPaddle + lebarPaddle) {
                 cout << "=";
             }
 
-            // Balok
-            else if (
-                y < BARIS &&
-                x < KOLOM * 3 &&
-                balok[y][x / 3]
-            ) {
+            // Menggambar balok
+            else if (y < BARIS &&
+                     x < KOLOM * 3 &&
+                     balok[y][x / 3]) {
+
                 if (x % 3 == 0) {
                     cout << "[";
                 }
@@ -187,7 +189,7 @@ void drawGame() {
                 }
             }
 
-            // Ruang kosong
+            // Area kosong
             else {
                 cout << " ";
             }
@@ -196,12 +198,16 @@ void drawGame() {
         cout << "#\n";
     }
 
-    // Bingkai bawah
+    // Batas bawah arena
+    cout << geser;
     for (int x = 0; x < LEBAR_LAYAR + 2; x++) {
         cout << "#";
     }
+    cout << "\n";
 
-    cout << "\nKontrol: A / Panah Kiri"
+    // Informasi kontrol
+    cout << geser;
+    cout << "Kontrol: A / Panah Kiri"
          << " | D / Panah Kanan"
          << " | X Keluar\n";
 }
