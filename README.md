@@ -7,7 +7,7 @@ Proyek akhir mata kuliah **Dasar Pemrograman dan Algoritma** (S1 Sistem Informas
 
 ## Anggota Kelompok
 
-| Peran | Nama | Tugas |
+| Nama | NPM | Tugas |
 |---|---|---|
 |Alfaredo Edward Sarip | 2617052009 | Tampilan, menu, dan main.cpp |
 |Syifa Dhiya Rahmadani | 2617052008 | Gerak bola dan tabrakan |
