@@ -213,39 +213,31 @@ void drawGame() {
 
 void inputPlayer() {
 
-    if (_kbhit()) {
+    // Tombol panah kiri atau A
+    if ((GetAsyncKeyState(VK_LEFT) & 0x8000) ||
+        (GetAsyncKeyState('A') & 0x8000)) {
 
-        int tombol = _getch();
+        posisiPaddle -= 2;
 
-        // Membaca kode tambahan tombol panah
-        if (tombol == 0 || tombol == 224) {
-            tombol = _getch();
+        if (posisiPaddle < 0) {
+            posisiPaddle = 0;
         }
+    }
 
-        // PANAH KIRI atau A
-        if (tombol == 75 || tombol == 'a' || tombol == 'A') {
+    // Tombol panah kanan atau D
+    if ((GetAsyncKeyState(VK_RIGHT) & 0x8000) ||
+        (GetAsyncKeyState('D') & 0x8000)) {
 
-            posisiPaddle -= 2;
+        posisiPaddle += 2;
 
-            if (posisiPaddle < 0) {
-                posisiPaddle = 0;
-            }
+        if (posisiPaddle + lebarPaddle > LEBAR_LAYAR) {
+            posisiPaddle = LEBAR_LAYAR - lebarPaddle;
         }
+    }
 
-        // PANAH KANAN atau D
-        else if (tombol == 77 || tombol == 'd' || tombol == 'D') {
-
-            posisiPaddle += 2;
-
-            if (posisiPaddle + lebarPaddle > LEBAR_LAYAR) {
-                posisiPaddle = LEBAR_LAYAR - lebarPaddle;
-            }
-        }
-
-        // KELUAR DARI GAME
-        else if (tombol == 'x' || tombol == 'X') {
-            gameOver = true;
-        }
+    // Tombol X untuk keluar
+    if (GetAsyncKeyState('X') & 0x8000) {
+        gameOver = true;
     }
 }
 
