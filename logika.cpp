@@ -194,13 +194,13 @@ void inputPlayer() {
 
         int tombol = _getch();
 
-        // Membaca tombol panah Windows
+        // Memeriksa tombol panah kiri atau kanan
         if (tombol == 0 || tombol == 224) {
             tombol = _getch();
         }
 
-        // Bergerak ke kiri
-        if (tombol == 'a' || tombol == 'A' || tombol == 75) {
+        // Tombol panah kiri atau huruf A
+        if (tombol == 75 || tombol == 'a' || tombol == 'A') {
 
             posisiPaddle -= 2;
 
@@ -209,8 +209,8 @@ void inputPlayer() {
             }
         }
 
-        // Bergerak ke kanan
-        else if (tombol == 'd' || tombol == 'D' || tombol == 77) {
+        // Tombol panah kanan atau huruf D
+        else if (tombol == 77 || tombol == 'd' || tombol == 'D') {
 
             posisiPaddle += 2;
 
@@ -219,7 +219,7 @@ void inputPlayer() {
             }
         }
 
-        // Keluar dari game
+        // Tombol X untuk keluar
         else if (tombol == 'x' || tombol == 'X') {
             gameOver = true;
         }
