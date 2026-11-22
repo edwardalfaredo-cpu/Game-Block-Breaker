@@ -15,6 +15,15 @@ void mulaiTampilan() {
     noecho();
     keypad(stdscr, TRUE);
     curs_set(0);              // sembunyikan kursor
+
+    // ----- WARNA (P12): pasangan nomor = (warna tulisan, warna latar) -----
+    start_color();
+    init_pair(1, COLOR_CYAN,    COLOR_BLACK);   // balok biasa
+    init_pair(2, COLOR_GREEN,   COLOR_BLACK);   // balok / item +Waktu
+    init_pair(3, COLOR_MAGENTA, COLOR_BLACK);   // balok / item Multi-Ball
+    init_pair(4, COLOR_YELLOW,  COLOR_BLACK);   // paddle
+    init_pair(5, COLOR_RED,     COLOR_BLACK);   // bola
+
     refresh();
 
     // +2 karena bingkai memakai 1 baris/kolom di tiap sisi
@@ -36,11 +45,17 @@ void gambarBalok() {
             int y = r + 1;                 // aturan data.h
             int x = k * LEBAR_BALOK;
             if (balok[r][k] == 1) {
+                wattron(winArena, COLOR_PAIR(1));
                 mvwprintw(winArena, y + 1, x + 1, "[===]");
+                wattroff(winArena, COLOR_PAIR(1));
             } else if (balok[r][k] == 2) {
+                wattron(winArena, COLOR_PAIR(2));
                 mvwprintw(winArena, y + 1, x + 1, "[ T ]");
+                wattroff(winArena, COLOR_PAIR(2));
             } else if (balok[r][k] == 3) {
+                wattron(winArena, COLOR_PAIR(3));
                 mvwprintw(winArena, y + 1, x + 1, "[ M ]");
+                wattroff(winArena, COLOR_PAIR(3));
             }
             // 0 = hancur: tidak digambar
         }
@@ -49,25 +64,33 @@ void gambarBalok() {
 
 void gambarPaddle() {
     int y = TINGGI_ARENA - 1;
+    wattron(winArena, COLOR_PAIR(4));
     for (int i = 0; i < LEBAR_PADDLE; i++) {
         mvwprintw(winArena, y + 1, paddleX + i + 1, "=");
     }
+    wattroff(winArena, COLOR_PAIR(4));
 }
 
 void gambarBola() {
+    wattron(winArena, COLOR_PAIR(5));
     for (int i = 0; i < JUMLAH_BOLA; i++) {
         if (bolaAktif[i]) {
             mvwprintw(winArena, bolaY[i] + 1, bolaX[i] + 1, "O");
         }
     }
+    wattroff(winArena, COLOR_PAIR(5));
 }
 
 void gambarItem() {
     if (itemAktif) {
         if (itemJenis == 2) {
+            wattron(winArena, COLOR_PAIR(2));
             mvwprintw(winArena, itemY + 1, itemX + 1, "T");
+            wattroff(winArena, COLOR_PAIR(2));
         } else {
+            wattron(winArena, COLOR_PAIR(3));
             mvwprintw(winArena, itemY + 1, itemX + 1, "M");
+            wattroff(winArena, COLOR_PAIR(3));
         }
     }
 }
