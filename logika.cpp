@@ -108,10 +108,10 @@ void setupGame() {
 
     lebarPaddle = 5;
 
-srand(static_cast<unsigned>(time(nullptr)));    
+    srand(static_cast<unsigned>(time(nullptr)));
 
     isiBalok();
-    resetPosisiBola();
+    resetItem();
     resetPosisiBola();
 }
 
@@ -263,9 +263,6 @@ void inputPlayer() {
 // ===============================
 
 void updateLogic() {
-    cout << "Posisi bola: x = " << bola.x
-         << " | Y = " << bola.y << endl;
-
     if (gameOver) {
         return;
     }
