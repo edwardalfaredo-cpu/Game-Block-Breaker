@@ -231,6 +231,8 @@ void inputPlayer() {
 // ===============================
 
 void updateLogic() {
+    cout << "Posisi bola: x = " << bola.x
+         << " | Y = " << bola.y << endl;
 
     if (gameOver) {
         return;
