@@ -21,6 +21,9 @@ int main() {
                 // Sementara: tampilkan layar Game Over contoh
                 skor = 120;
                 tampilGameOver(true);
+                // TES SEMENTARA: ketik nama, lalu lihat di menu High Score
+                namaTop[2] = mintaNama();
+                skorTop[2] = skor;
                 break;
             case MENU_SKOR:
                 tampilHighScore();
