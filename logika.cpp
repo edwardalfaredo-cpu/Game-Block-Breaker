@@ -122,7 +122,7 @@ void setupGame() {
 
 void drawGame() {
     // Mengatur posisi tampilan agar bergeser ke tengah
-    const int OFFSET_KIRI = 25;
+    const int OFFSET_KIRI = 45;
     string geser(OFFSET_KIRI, ' ');
 
     // Mengembalikan kursor ke pojok kiri atas
