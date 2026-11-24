@@ -6,9 +6,9 @@
 
 using namespace std;
 
-// ==============================
-// VARIABEL GAME
-// ==============================
+// =====================================
+// 1. VARIABEL PERMAINAN
+// =====================================
 
 bool balok[BARIS][KOLOM];
 
@@ -23,9 +23,9 @@ int posisiPaddle;
 int lebarPaddle = 5;
 
 
-// ==============================
-// MENGISI DAN MENGHITUNG BALOK
-// ==============================
+// =====================================
+// 2. MENGATUR BALOK
+// =====================================
 
 void isiBalok() {
     for (int i = 0; i < BARIS; i++) {
@@ -54,9 +54,9 @@ int hitungBalok() {
 }
 
 
-// ==============================
-// MENGHANCURKAN BALOK
-// ==============================
+// =====================================
+// 3. MENGHANCURKAN BALOK
+// =====================================
 
 void hancurkanBalok(int baris, int kolom) {
 
@@ -67,16 +67,16 @@ void hancurkanBalok(int baris, int kolom) {
 
             balok[baris][kolom] = false;
 
-            // Mencoba memunculkan item
+            // Kesempatan memunculkan item
             buatItem(kolom * 3 + 1, baris);
         }
     }
 }
 
 
-// ==============================
-// MENAMPILKAN BALOK
-// ==============================
+// =====================================
+// 4. MENAMPILKAN BALOK
+// =====================================
 
 void tampilBalok() {
 
@@ -97,9 +97,9 @@ void tampilBalok() {
 }
 
 
-// ==============================
-// RESET POSISI BOLA
-// ==============================
+// =====================================
+// 5. RESET POSISI BOLA DAN PADDLE
+// =====================================
 
 void resetPosisiBola() {
 
@@ -113,9 +113,9 @@ void resetPosisiBola() {
 }
 
 
-// ==============================
-// SETUP GAME
-// ==============================
+// =====================================
+// 6. PERSIAPAN PERMAINAN
+// =====================================
 
 void setupGame() {
 
@@ -135,9 +135,9 @@ void setupGame() {
 }
 
 
-// ==============================
-// MENGGAMBAR GAME
-// ==============================
+// =====================================
+// 7. MENGGAMBAR TAMPILAN PERMAINAN
+// =====================================
 
 void drawGame() {
 
@@ -157,39 +157,39 @@ void drawGame() {
          << " | SISA BALOK: " << hitungBalok()
          << "                    \n";
 
-    // Batas atas arena
+    // Batas atas
     for (int x = 0; x < LEBAR_LAYAR + 2; x++) {
         cout << "#";
     }
 
     cout << "\n";
 
-    // Isi arena permainan
+    // Menggambar arena
     for (int y = 0; y < TINGGI_LAYAR; y++) {
 
         cout << "#";
 
         for (int x = 0; x < LEBAR_LAYAR; x++) {
 
-            // Menggambar bola
+            // Bola
             if (x == bola.x && y == bola.y) {
                 cout << "O";
             }
 
-            // Menggambar item
+            // Item
             else if (itemAktif &&
                      x == item.x && y == item.y) {
                 cout << "*";
             }
 
-            // Menggambar paddle
+            // Paddle
             else if (y == TINGGI_LAYAR - 1 &&
                      x >= posisiPaddle &&
                      x < posisiPaddle + lebarPaddle) {
                 cout << "=";
             }
 
-            // Menggambar balok
+            // Balok
             else if (y < BARIS &&
                      x < KOLOM * 3 &&
                      balok[y][x / 3]) {
@@ -205,7 +205,7 @@ void drawGame() {
                 }
             }
 
-            // Area kosong
+            // Ruang kosong
             else {
                 cout << " ";
             }
@@ -214,23 +214,22 @@ void drawGame() {
         cout << "#\n";
     }
 
-    // Batas bawah arena
+    // Batas bawah
     for (int x = 0; x < LEBAR_LAYAR + 2; x++) {
         cout << "#";
     }
 
     cout << "\n";
 
-    // Informasi kontrol
-    cout << "Kontrol: A / Panah Kiri"
-         << " | D / Panah Kanan"
-         << " | X Keluar\n";
+    // Hanya menampilkan kontrol keypad
+    cout << "Kontrol: PANAH KIRI / PANAH KANAN"
+         << " | ESC: KELUAR\n";
 }
 
 
-// ==============================
-// KONTROL PADDLE
-// ==============================
+// =====================================
+// 8. KONTROL PADDLE MENGGUNAKAN KEYPAD
+// =====================================
 
 void inputPlayer() {
 
@@ -240,30 +239,26 @@ void inputPlayer() {
 
     DWORD sekarang = GetTickCount();
 
-    // Keluar dari permainan
-    if (GetAsyncKeyState('X') & 0x8000) {
+    // Tombol ESC untuk keluar
+    if (GetAsyncKeyState(VK_ESCAPE) & 0x8000) {
+
         gameOver = true;
         return;
     }
 
-    // Membaca tombol kiri
-    bool kiri =
-        (GetAsyncKeyState(VK_LEFT) & 0x8000) ||
-        (GetAsyncKeyState('A') & 0x8000);
+    // Membaca tombol panah kiri dan kanan
+    bool kiri = GetAsyncKeyState(VK_LEFT) & 0x8000;
 
-    // Membaca tombol kanan
-    bool kanan =
-        (GetAsyncKeyState(VK_RIGHT) & 0x8000) ||
-        (GetAsyncKeyState('D') & 0x8000);
+    bool kanan = GetAsyncKeyState(VK_RIGHT) & 0x8000;
 
     if (sekarang - waktuGerakTerakhir < jedaGerak) {
         return;
     }
 
-    // Bergerak ke kiri
+    // Gerak ke kiri
     if (kiri && !kanan) {
 
-        posisiPaddle -= 1;
+        posisiPaddle--;
 
         if (posisiPaddle < 0) {
             posisiPaddle = 0;
@@ -272,10 +267,10 @@ void inputPlayer() {
         waktuGerakTerakhir = sekarang;
     }
 
-    // Bergerak ke kanan
+    // Gerak ke kanan
     else if (kanan && !kiri) {
 
-        posisiPaddle += 1;
+        posisiPaddle++;
 
         if (posisiPaddle + lebarPaddle > LEBAR_LAYAR) {
             posisiPaddle = LEBAR_LAYAR - lebarPaddle;
@@ -286,12 +281,13 @@ void inputPlayer() {
 }
 
 
-// ==============================
-// LOGIKA PERGERAKAN BOLA
-// ==============================
+// =====================================
+// 9. LOGIKA PERGERAKAN BOLA DAN GAME
+// =====================================
 
 void updateLogic() {
 
+    // Jika permainan selesai, hentikan logika
     if (gameOver) {
         return;
     }
@@ -364,6 +360,7 @@ void updateLogic() {
         nyawa--;
 
         if (nyawa <= 0) {
+
             gameOver = true;
         }
         else {
