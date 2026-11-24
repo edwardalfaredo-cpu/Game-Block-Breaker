@@ -43,7 +43,7 @@ void buatItem(int x, int y) {
     }
 
     // Peluang item muncul sebesar 20%
-    if (rand() % 100 < 100) {
+    if (rand() % 100 < 20) {
 
         item.x = x;
         item.y = y;
