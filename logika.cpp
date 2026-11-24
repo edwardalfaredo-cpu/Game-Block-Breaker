@@ -234,17 +234,16 @@ void drawGame() {
 void inputPlayer() {
 
     static DWORD waktuGerakTerakhir = 0;
-    const DWORD jedaGerak = 10;
+    const DWORD jedaGerak = 5;
 
     DWORD sekarang = GetTickCount();
 
-    // Tombol ESC untuk keluar
+    // ESC untuk keluar
     if (GetAsyncKeyState(VK_ESCAPE) & 0x8000) {
         gameOver = true;
         return;
     }
 
-    // Hanya menggunakan tombol panah
     bool kiri = GetAsyncKeyState(VK_LEFT) & 0x8000;
     bool kanan = GetAsyncKeyState(VK_RIGHT) & 0x8000;
 
@@ -252,8 +251,8 @@ void inputPlayer() {
         return;
     }
 
-    // Gerak ke kiri
     if (kiri && !kanan) {
+
         posisiPaddle--;
 
         if (posisiPaddle < 0) {
@@ -263,8 +262,8 @@ void inputPlayer() {
         waktuGerakTerakhir = sekarang;
     }
 
-    // Gerak ke kanan
     else if (kanan && !kiri) {
+
         posisiPaddle++;
 
         if (posisiPaddle + lebarPaddle > LEBAR_LAYAR) {
