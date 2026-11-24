@@ -234,23 +234,28 @@ void drawGame() {
 void inputPlayer() {
 
     static DWORD waktuGerakTerakhir = 0;
-    const DWORD jedaGerak = 5;
+
+    const DWORD jedaGerak = 10;
 
     DWORD sekarang = GetTickCount();
 
-    // ESC untuk keluar
+    // Tombol ESC untuk keluar
     if (GetAsyncKeyState(VK_ESCAPE) & 0x8000) {
+
         gameOver = true;
         return;
     }
 
+    // Membaca tombol panah kiri dan kanan
     bool kiri = GetAsyncKeyState(VK_LEFT) & 0x8000;
+
     bool kanan = GetAsyncKeyState(VK_RIGHT) & 0x8000;
 
     if (sekarang - waktuGerakTerakhir < jedaGerak) {
         return;
     }
 
+    // Gerak ke kiri
     if (kiri && !kanan) {
 
         posisiPaddle--;
@@ -262,6 +267,7 @@ void inputPlayer() {
         waktuGerakTerakhir = sekarang;
     }
 
+    // Gerak ke kanan
     else if (kanan && !kiri) {
 
         posisiPaddle++;
@@ -274,7 +280,6 @@ void inputPlayer() {
     }
 }
 
-    
 
 // =====================================
 // 9. LOGIKA PERGERAKAN BOLA DAN GAME
