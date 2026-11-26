@@ -5,7 +5,7 @@
 
 using namespace std;
 
-// Membaca data dari file
+// Membaca data High Score
 int muatHighScore(DataHighScore data[], int kapasitas) {
 
     ifstream file("highscore.txt");
@@ -20,6 +20,7 @@ int muatHighScore(DataHighScore data[], int kapasitas) {
     while (getline(file, baris) && jumlah < kapasitas) {
 
         stringstream ss(baris);
+
         string nama;
         int nilai;
 
@@ -37,9 +38,12 @@ int muatHighScore(DataHighScore data[], int kapasitas) {
     return jumlah;
 }
 
-// Sequential Search
-int cariPemain(DataHighScore data[], int jumlah,
-               const string& nama) {
+// Mencari pemain berdasarkan nama
+int cariPemain(
+    DataHighScore data[],
+    int jumlah,
+    const string& nama
+) {
 
     for (int i = 0; i < jumlah; i++) {
 
@@ -51,12 +55,13 @@ int cariPemain(DataHighScore data[], int jumlah,
     return -1;
 }
 
-// Bubble Sort ascending
-void urutkanHighScore(DataHighScore data[], int jumlah) {
+// Mengurutkan skor dari tertinggi ke terendah
+void urutkanHighScore(
+    DataHighScore data[],
+    int jumlah
+) {
 
     for (int i = 0; i < jumlah - 1; i++) {
-
-        bool berubah = false;
 
         for (int j = 0; j < jumlah - i - 1; j++) {
 
@@ -67,19 +72,16 @@ void urutkanHighScore(DataHighScore data[], int jumlah) {
                 data[j] = data[j + 1];
 
                 data[j + 1] = sementara;
-
-                berubah = true;
             }
-        }
-
-        if (!berubah) {
-            break;
         }
     }
 }
 
 // Menyimpan skor pemain
-bool simpanHighScore(const string& nama, int skor) {
+bool simpanHighScore(
+    const string& nama,
+    int skor
+) {
 
     if (nama.empty() || nama.find('|') != string::npos) {
         return false;
@@ -93,7 +95,7 @@ bool simpanHighScore(const string& nama, int skor) {
 
     if (index != -1) {
 
-        // Hanya menyimpan skor terbaik pemain
+        // Perbarui hanya jika skor baru lebih tinggi
         if (skor > data[index].skor) {
             data[index].skor = skor;
         }
@@ -110,10 +112,8 @@ bool simpanHighScore(const string& nama, int skor) {
         jumlah++;
     }
 
-    // Mengurutkan skor
     urutkanHighScore(data, jumlah);
 
-    // Menulis ulang file
     ofstream file("highscore.txt");
 
     if (!file.is_open()) {
@@ -122,8 +122,10 @@ bool simpanHighScore(const string& nama, int skor) {
 
     for (int i = 0; i < jumlah; i++) {
 
-        file << data[i].nama << "|"
-             << data[i].skor << "\n";
+        file << data[i].nama
+             << "|"
+             << data[i].skor
+             << "\n";
     }
 
     file.close();

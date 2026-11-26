@@ -19,7 +19,7 @@ bool gameOver = false;
 Posisi bola;
 Posisi arahBola;
 
-int posisiPaddle;
+int posisiPaddle = 0;
 int lebarPaddle = 5;
 
 
@@ -28,8 +28,11 @@ int lebarPaddle = 5;
 // =====================================
 
 void isiBalok() {
+
     for (int i = 0; i < BARIS; i++) {
+
         for (int j = 0; j < KOLOM; j++) {
+
             balok[i][j] = true;
         }
     }
@@ -40,10 +43,13 @@ void resetBalok() {
 }
 
 int hitungBalok() {
+
     int jumlah = 0;
 
     for (int i = 0; i < BARIS; i++) {
+
         for (int j = 0; j < KOLOM; j++) {
+
             if (balok[i][j]) {
                 jumlah++;
             }
@@ -60,14 +66,15 @@ int hitungBalok() {
 
 void hancurkanBalok(int baris, int kolom) {
 
-    if (baris >= 0 && baris < BARIS &&
-        kolom >= 0 && kolom < KOLOM) {
+    if (
+        baris >= 0 && baris < BARIS &&
+        kolom >= 0 && kolom < KOLOM
+    ) {
 
         if (balok[baris][kolom]) {
 
             balok[baris][kolom] = false;
 
-            // Kesempatan memunculkan item
             buatItem(kolom * 3 + 1, baris);
         }
     }
@@ -136,7 +143,7 @@ void setupGame() {
 
 
 // =====================================
-// 7. MENGGAMBAR TAMPILAN PERMAINAN
+// 7. MENGGAMBAR PERMAINAN
 // =====================================
 
 void drawGame() {
@@ -151,11 +158,10 @@ void drawGame() {
         cursorPosition
     );
 
-    // Menampilkan skor dan nyawa
     cout << "SKOR: " << skor
          << " | NYAWA: " << nyawa
          << " | SISA BALOK: " << hitungBalok()
-         << "                    \n";
+         << "                         \n";
 
     // Batas atas
     for (int x = 0; x < LEBAR_LAYAR + 2; x++) {
@@ -164,7 +170,7 @@ void drawGame() {
 
     cout << "\n";
 
-    // Menggambar arena
+    // Isi arena
     for (int y = 0; y < TINGGI_LAYAR; y++) {
 
         cout << "#";
@@ -177,22 +183,29 @@ void drawGame() {
             }
 
             // Item
-            else if (itemAktif &&
-                     x == item.x && y == item.y) {
+            else if (
+                itemAktif &&
+                x == item.x &&
+                y == item.y
+            ) {
                 cout << "*";
             }
 
             // Paddle
-            else if (y == TINGGI_LAYAR - 1 &&
-                     x >= posisiPaddle &&
-                     x < posisiPaddle + lebarPaddle) {
+            else if (
+                y == TINGGI_LAYAR - 1 &&
+                x >= posisiPaddle &&
+                x < posisiPaddle + lebarPaddle
+            ) {
                 cout << "=";
             }
 
             // Balok
-            else if (y < BARIS &&
-                     x < KOLOM * 3 &&
-                     balok[y][x / 3]) {
+            else if (
+                y < BARIS &&
+                x < KOLOM * 3 &&
+                balok[y][x / 3]
+            ) {
 
                 if (x % 3 == 0) {
                     cout << "[";
@@ -205,7 +218,6 @@ void drawGame() {
                 }
             }
 
-            // Ruang kosong
             else {
                 cout << " ";
             }
@@ -221,14 +233,13 @@ void drawGame() {
 
     cout << "\n";
 
-    // Hanya menampilkan kontrol keypad
     cout << "Kontrol: PANAH KIRI / PANAH KANAN"
-         << " | ESC: KELUAR\n";
+         << " | ESC: KELUAR                    \n";
 }
 
 
 // =====================================
-// 8. KONTROL PADDLE MENGGUNAKAN KEYPAD
+// 8. KONTROL PEMAIN
 // =====================================
 
 void inputPlayer() {
@@ -239,23 +250,21 @@ void inputPlayer() {
 
     DWORD sekarang = GetTickCount();
 
-    // Tombol ESC untuk keluar
+    // Keluar menggunakan ESC
     if (GetAsyncKeyState(VK_ESCAPE) & 0x8000) {
 
         gameOver = true;
+
         return;
     }
 
-    // Membaca tombol panah kiri dan kanan
     bool kiri = GetAsyncKeyState(VK_LEFT) & 0x8000;
-
     bool kanan = GetAsyncKeyState(VK_RIGHT) & 0x8000;
 
     if (sekarang - waktuGerakTerakhir < jedaGerak) {
         return;
     }
 
-    // Gerak ke kiri
     if (kiri && !kanan) {
 
         posisiPaddle--;
@@ -267,7 +276,6 @@ void inputPlayer() {
         waktuGerakTerakhir = sekarang;
     }
 
-    // Gerak ke kanan
     else if (kanan && !kiri) {
 
         posisiPaddle++;
@@ -282,39 +290,42 @@ void inputPlayer() {
 
 
 // =====================================
-// 9. LOGIKA PERGERAKAN BOLA DAN GAME
+// 9. LOGIKA PERGERAKAN BOLA
 // =====================================
 
 void updateLogic() {
 
-    // Jika permainan selesai, hentikan logika
     if (gameOver) {
         return;
     }
 
-    // Menggerakkan bola
+    // Gerakan bola
     bola.x += arahBola.x;
     bola.y += arahBola.y;
 
-    // Pantulan dinding kiri
+    // Dinding kiri
     if (bola.x <= 0) {
 
         bola.x = 0;
+
         arahBola.x = 1;
     }
 
-    // Pantulan dinding kanan
+    // Dinding kanan
     else if (bola.x >= LEBAR_LAYAR - 1) {
 
         bola.x = LEBAR_LAYAR - 1;
+
         arahBola.x = -1;
     }
 
-    // Pemeriksaan tabrakan balok
+    // Tabrakan balok
     bool kenaBalok = false;
 
-    if (bola.y >= 0 && bola.y < BARIS &&
-        bola.x >= 0 && bola.x < KOLOM * 3) {
+    if (
+        bola.y >= 0 && bola.y < BARIS &&
+        bola.x >= 0 && bola.x < KOLOM * 3
+    ) {
 
         int kolomBalok = bola.x / 3;
         int barisBalok = bola.y;
@@ -331,18 +342,21 @@ void updateLogic() {
         }
     }
 
-    // Pantulan dinding atas
+    // Dinding atas
     if (!kenaBalok && bola.y <= 0) {
 
         bola.y = 0;
+
         arahBola.y = 1;
     }
 
     // Pantulan paddle
-    if (bola.y == TINGGI_LAYAR - 1 &&
+    if (
+        bola.y == TINGGI_LAYAR - 1 &&
         arahBola.y > 0 &&
         bola.x >= posisiPaddle &&
-        bola.x < posisiPaddle + lebarPaddle) {
+        bola.x < posisiPaddle + lebarPaddle
+    ) {
 
         arahBola.y = -1;
 
@@ -354,7 +368,7 @@ void updateLogic() {
         }
     }
 
-    // Pemeriksaan bola jatuh
+    // Bola jatuh
     if (bola.y >= TINGGI_LAYAR) {
 
         nyawa--;
@@ -371,6 +385,6 @@ void updateLogic() {
         }
     }
 
-    // Memperbarui sistem item
+    // Memperbarui item
     updateItem();
 }

@@ -10,13 +10,25 @@ struct DataHighScore {
     int skor;
 };
 
-int muatHighScore(DataHighScore data[], int kapasitas);
+int muatHighScore(
+    DataHighScore data[],
+    int kapasitas
+);
 
-bool simpanHighScore(const std::string& nama, int skor);
+bool simpanHighScore(
+    const std::string& nama,
+    int skor
+);
 
-void urutkanHighScore(DataHighScore data[], int jumlah);
+void urutkanHighScore(
+    DataHighScore data[],
+    int jumlah
+);
 
-int cariPemain(DataHighScore data[], int jumlah,
-               const std::string& nama);
+int cariPemain(
+    DataHighScore data[],
+    int jumlah,
+    const std::string& nama
+);
 
 #endif
