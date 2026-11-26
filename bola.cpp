@@ -31,7 +31,6 @@ void resetBola() {
 }
 
 // Geser semua bola yang aktif.
-// Pantulan dan tabrakan diurus di tabrakan.cpp (cekTabrakan)
 void updateBola() {
     hitungBola++;
     if (hitungBola % RITME_BOLA == 0) {     // bola hanya bergerak di putaran tertentu

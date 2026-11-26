@@ -6,4 +6,5 @@ void updateBola();
 bool semuaBolaJatuh();
 int  aktifkanMultiBall();
 
+
 #endif

@@ -135,7 +135,7 @@ void gerakItem() {
     }
 }
 
-// ---------------- dipanggil tiap putaran ----------------
+// ---------------- dipanggil tiap putaran -----------------
 
 void cekTabrakan() {
     for (int i = 0; i < JUMLAH_BOLA; i++) {
